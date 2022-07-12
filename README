@@ -1,0 +1,8 @@
+//install docker
+sudo curl -sSL https://get.docker.com/ | sh
+ 
+//start docker daemon
+sudo dockerd &
+
+//gen ssh key-pair
+ssh-keygen -t rsa -b 4096
