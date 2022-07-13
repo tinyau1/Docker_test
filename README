@@ -1,8 +1,32 @@
+//upgrade WSL2 in windows
+https://docs.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
+https://docs.microsoft.com/en-us/windows/wsl/install
+
+- in windows command shell 
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+- download linux kernel update
+https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+
+- reboot
+
+- check existing distro 
+wsl -l -v
+
+- set wsl version to 2
+wsl --set-default-version 2
+wsl --set-version <distro name> 2
+
+- install Ubuntu-20.04 WSL
+
 //install docker
 sudo curl -sSL https://get.docker.com/ | sh
  
 //start docker daemon
 sudo dockerd &
+
+//add local user to docker group
+sudo usermod -aG docker $USER
 
 //gen ssh key-pair
 ssh-keygen -t rsa -b 4096

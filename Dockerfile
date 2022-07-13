@@ -33,11 +33,11 @@ RUN python -m pip install --upgrade pip virtualenv
 
 ARG SSH_PRIVATE_KEY
 RUN mkdir -m 700 /root/.ssh/ \
-	&& echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa \
-	&& chmod 600 /root/.ssh/id_rsa \
-	&& touch -m 600 /root/.ssh/known_hosts \
-	&& echo "Host glab.espressif.cn" > /root/.ssh/config \
-	&& echo "    StrictHostKeyChecking no" >> /root/.ssh/config
+    && echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa \
+    && chmod 600 /root/.ssh/id_rsa \
+    && touch -m 600 /root/.ssh/known_hosts \
+    && echo "Host glab.espressif.cn" > /root/.ssh/config \
+    && echo "    StrictHostKeyChecking no" >> /root/.ssh/config
 
 ARG IDF_CLONE_URL=ssh://git@glab.espressif.cn:8266/technical_support/signify/esp-idf-signify.git
 ARG IDF_CHECKOUT_REF=
@@ -49,7 +49,8 @@ RUN echo IDF_CHECKOUT_REF=$IDF_CHECKOUT_REF && \
     cd $IDF_PATH && \
     git checkout $IDF_CHECKOUT_REF && \
     sed -i 's/https:\/\/glab.espressif.cn/ssh:\/\/git@glab.espressif.cn:8266/g' .gitmodules && \
-    git submodule update --init --recursive
+    git submodule update --init --recursive && \
+    rm -rf /root/.ssh 
 
 #can be done when docker build
 RUN python -m pip install --user -r $IDF_PATH/requirements.txt
@@ -57,8 +58,8 @@ ENV TOOLCHAIN_TARBALL=xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
 ENV TOOLCHAIN_PATH=/opt/xtensa-esp32-elf/bin
 
 RUN wget https://dl.espressif.com/dl/$TOOLCHAIN_TARBALL -P /opt && \
-	tar -xzf /opt/$TOOLCHAIN_TARBALL -C /opt && \
-	rm -rf /opt/$TOOLCHAIN_TARBALL
+    tar -xzf /opt/$TOOLCHAIN_TARBALL -C /opt && \
+    rm -rf /opt/$TOOLCHAIN_TARBALL
 
 
 #docker build script

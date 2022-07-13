@@ -6,13 +6,13 @@ idf_tag = subprocess.check_output('git submodule status ' + idf_path, shell=True
 
 print(f'project_path:{project_path}, idf_path:{idf_path}, idf_tag:{idf_tag}')
 
-docker_image = 'fw-esp32-v1.x-builder-env:' + idf_tag + 'v2'
+docker_image = 'fw-esp32-v1.x-builder-env:' + idf_tag
 
 args = [
     'DOCKER_BUILDKIT=1', 'docker', 'build',
     '--no-cache',
     '--progress=plain',
-    '--build-arg', 'SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)"', '--build-arg', 'IDF_CHECKOUT_REF='+idf_tag,
+    '--build-arg', 'SSH_PRIVATE_KEY="$(cat /home/`whoami`/.ssh/id_rsa)"', '--build-arg', 'IDF_CHECKOUT_REF='+idf_tag,
     '-t ', docker_image,
     '.'
 ]
